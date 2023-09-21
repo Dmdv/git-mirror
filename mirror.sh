@@ -41,7 +41,7 @@ TASG=false
 
 while (( "$#" )); do
   case "$1" in
-    -a|--option-a)
+    -t|--tags)
       echo "Tags cloning enabled"
       TAGS=true
       shift
