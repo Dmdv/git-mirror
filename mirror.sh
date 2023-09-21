@@ -37,7 +37,7 @@ if ! git ls-remote $2 &> /dev/null; then
 fi
 
 # Checking options
-TASG=false
+TAGS=false
 
 # while (( "$#" )); do
 #   case "$3" in
@@ -60,7 +60,7 @@ TASG=false
 #   esac
 # done
 
-while getopts "t" option; do
+while getopts ":t" option; do
   case "$option" in
     t) 
         echo "Option -t provided"
@@ -73,7 +73,7 @@ while getopts "t" option; do
   esac
 done
 
-if ! $TAGS; then
-    echo "Tags cloning disabled"
+if [ "$TAGS" = false ] ; then
+    echo "Tags cloning disabled. Exiting..."
     exit 0
 fi
