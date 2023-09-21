@@ -37,7 +37,7 @@ if ! git ls-remote $2 &> /dev/null; then
 fi
 
 # Checking options
-TASG=false
+TAGS=false
 
 # while (( "$#" )); do
 #   case "$3" in
@@ -60,7 +60,7 @@ TASG=false
 #   esac
 # done
 
-while getopts "t" option; do
+while getopts ":t" option; do
   case "$option" in
     t) 
         echo "Option -t provided"
