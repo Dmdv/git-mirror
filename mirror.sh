@@ -73,11 +73,6 @@ while getopts "t" option; do
   esac
 done
 
-if [ "$TAGS" = false ] ; then
-    echo "Tags cloning disabled"
-    exit 0
-fi
-
 GIT_SOURCE_REPO=$1
 GIT_TARGET_REPO=$2
 
