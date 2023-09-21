@@ -39,27 +39,33 @@ fi
 # Checking options
 TASG=false
 
-while (( "$#" )); do
-  case "$3" in
-    -t|--tags)
-      echo "Tags cloning enabled"
-      TAGS=true
-      shift
-      ;;
-    --)
-      shift
-      break
-      ;;
-    -*|--*=) # unsupported flags
-      echo "Error: Unsupported flag $1" >&2
-      exit 1
-      ;;
-    *)
-      shift
-      ;;
+# while (( "$#" )); do
+#   case "$3" in
+#     -t|--tags)
+#       echo "Tags cloning enabled"
+#       TAGS=true
+#       shift
+#       ;;
+#     --)
+#       shift
+#       break
+#       ;;
+#     -*|--*=) # unsupported flags
+#       echo "Error: Unsupported flag $1" >&2
+#       exit 1
+#       ;;
+#     *)
+#       shift
+#       ;;
+#   esac
+# done
+
+while getopts "t" option; do
+  case "$option" in
+    t) echo "Option -t provided";;
+    \?) echo "Invalid option: -$OPTARG" >&2; exit 1;;
   esac
 done
-
 
 GIT_SOURCE_REPO=$1
 GIT_TARGET_REPO=$2
