@@ -49,7 +49,7 @@ echo "Cloned to $foldername"
 cd $foldername
 
 echo "Adding remote $GIT_TARGET_REPO as push origin"
-git remote set-url --push origin $GIT_TARGET_REPO
+git remote add destination $GIT_TARGET_REPO
 
 for branch in $(git branch -r | grep origin | grep -v "HEAD" | sed 's/origin\///'); do
     echo "Processing branch: $branch"
@@ -59,7 +59,7 @@ for branch in $(git branch -r | grep origin | grep -v "HEAD" | sed 's/origin\///
     git add -A
     git commit -m "Create $branch"
     git branch -M temp_branch $branch
-    git push $branch
+    git push destination $branch
 done
 
 # Now push the tags
@@ -72,5 +72,5 @@ for tag in $(git tag); do
     git commit -m "Create tag $tag"
     git tag -d $tag  # delete the old tag
     git tag $tag  # recreate the tag on the new commit
-    git push $tag
+    git push destination $tag
 done
