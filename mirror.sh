@@ -62,8 +62,14 @@ TASG=false
 
 while getopts "t" option; do
   case "$option" in
-    t) echo "Option -t provided";;
-    \?) echo "Invalid option: -$OPTARG" >&2; exit 1;;
+    t) 
+        echo "Option -t provided"
+        TAGS=true
+        ;;
+    \?) 
+        echo "Invalid option: -$OPTARG" >&2; 
+        exit 1
+        ;;
   esac
 done
 
