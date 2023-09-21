@@ -73,6 +73,11 @@ while getopts "t" option; do
   esac
 done
 
+if [ "$TAGS" = false ] ; then
+    echo "Tags cloning disabled"
+    exit 0
+fi
+
 GIT_SOURCE_REPO=$1
 GIT_TARGET_REPO=$2
 
@@ -99,8 +104,8 @@ for branch in $(git branch -r | grep origin | grep -v "HEAD" | sed 's/origin\///
     git push destination $branch
 done
 
-
 if [ "$TAGS" = false ] ; then
+    echo "Tags cloning disabled"
     exit 0
 fi
 
