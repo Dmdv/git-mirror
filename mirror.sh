@@ -40,7 +40,7 @@ fi
 TASG=false
 
 while (( "$#" )); do
-  case "$1" in
+  case "$3" in
     -t|--tags)
       echo "Tags cloning enabled"
       TAGS=true
