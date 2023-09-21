@@ -2,7 +2,7 @@
 
 # Check if argument is given
 if [ $# -eq 0 ]; then
-    echo "Usage: $0 <path>"
+    echo "Usage: $0 <path> --tags"
     exit 1
 fi
 
@@ -36,6 +36,31 @@ if ! git ls-remote $2 &> /dev/null; then
     exit 1
 fi
 
+# Checking options
+TASG=false
+
+while (( "$#" )); do
+  case "$1" in
+    -a|--option-a)
+      echo "Tags cloning enabled"
+      TAGS=true
+      shift
+      ;;
+    --)
+      shift
+      break
+      ;;
+    -*|--*=) # unsupported flags
+      echo "Error: Unsupported flag $1" >&2
+      exit 1
+      ;;
+    *)
+      shift
+      ;;
+  esac
+done
+
+
 GIT_SOURCE_REPO=$1
 GIT_TARGET_REPO=$2
 
@@ -61,6 +86,11 @@ for branch in $(git branch -r | grep origin | grep -v "HEAD" | sed 's/origin\///
     git branch -M temp_branch $branch
     git push destination $branch
 done
+
+
+if [ "$TAGS" = false ] ; then
+    exit 0
+fi
 
 # Now push the tags
 for tag in $(git tag); do
