@@ -73,51 +73,7 @@ while getopts "t" option; do
   esac
 done
 
-if [ "$TAGS" = false ] ; then
+if ! $TAGS; then
     echo "Tags cloning disabled"
     exit 0
 fi
-
-GIT_SOURCE_REPO=$1
-GIT_TARGET_REPO=$2
-
-echo "Cloning $GIT_SOURCE_REPO"
-git clone $GIT_SOURCE_REPO
-
-folder=${GIT_SOURCE_REPO##*/}
-foldername=${folder%.git}
-
-echo "Cloned to $foldername"
-cd $foldername
-
-echo "Adding remote $GIT_TARGET_REPO as push origin"
-git remote add destination $GIT_TARGET_REPO
-
-for branch in $(git branch -r | grep origin | grep -v "HEAD" | sed 's/origin\///'); do
-    echo "Processing branch: $branch"
-    git checkout $branch
-    # Create a new commit that adds all files as they are on this branch
-    git checkout --orphan temp_branch
-    git add -A
-    git commit -m "Create $branch"
-    git branch -M temp_branch $branch
-    git push destination $branch
-done
-
-if [ "$TAGS" = false ] ; then
-    echo "Tags cloning disabled"
-    exit 0
-fi
-
-# Now push the tags
-for tag in $(git tag); do
-    echo "Processing tag: $tag"
-    git checkout $tag
-    # Create a new commit that adds all files as they are on this tag
-    git checkout --orphan temp_tag
-    git add -A
-    git commit -m "Create tag $tag"
-    git tag -d $tag  # delete the old tag
-    git tag $tag  # recreate the tag on the new commit
-    git push destination $tag
-done
